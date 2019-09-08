@@ -4,8 +4,9 @@
   "description": "react-scaffold",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack --mode development",
-    "build": "webpack --mode production"
+    "start":"webpack-dev-server --config webpack.dev.config",
+    "dev": " webpack --config webpack.dev.config",
+    "build": "webpack"
   },
   "keywords": [
     "react、webpack"
@@ -23,6 +24,7 @@
     "babel-loader": "^8.0.6",
     "html-webpack-plugin": "^3.2.0",
     "webpack": "^4.39.3",
-    "webpack-cli": "^3.3.7"
+    "webpack-cli": "^3.3.7",
+    "webpack-dev-server": "^3.8.0"
   }
 }
