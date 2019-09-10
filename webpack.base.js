@@ -1,9 +1,10 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const devMode = process.env.NODE_ENV !== 'production'
+const isProd = true;
+// console.log('process.env.NODE_ENV: ', process.env.);
+// console.log('isProd: ', isProd);
 const path = require('path');
-
-
+const firstloader = isProd ? MiniCssExtractPlugin.loader : 'style-loader'
 module.exports = {
   entry: './src/app.jsx',
   output: {
@@ -20,7 +21,32 @@ module.exports = {
       test: /\.jsx|js$/,
       exclude: /node_modules/,
       use: { loader: 'babel-loader' },
-    }
+    },
+    {
+      test: /\.css$/,
+      exclude: /node_modules/,
+      use: [
+        firstloader,
+        {
+          loader: 'css-loader',
+          options: isProd ? {} : { sourceMap: true, },
+        },
+        'postcss-loader',
+      ]
+    },
+      {
+        test: /\.less$/,
+        exclude: /node_modules/,
+        use: [
+          firstloader,
+          {
+            loader: 'css-loader',
+            options: isProd ? {} : { sourceMap: true, },
+          },
+          'postcss-loader',
+          'less-loader',
+        ]
+      }
   ]
   },
   plugins:[

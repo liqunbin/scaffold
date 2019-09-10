@@ -1,6 +1,8 @@
  // webpack 基于node环境， 所以使用node的语法。
 const HtmlWebpackPlugin = require('html-webpack-plugin'); 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const merge = require("webpack-merge");
 const common = require("./webpack.base");
 const webpack = require('webpack'); 
@@ -9,20 +11,28 @@ module.exports = merge(common, {
   mode: 'production',
   module: {
     rules: [
-      {
-        test: /\.less|css$/,
-        exclude: /node_modules/,
-        use: [MiniCssExtractPlugin.loader,
-          'css-loader',
-          'postcss-loader',
-          'less-loader',
-        ]
-      }
+      // {
+      //   test: /\.less|css$/,
+      //   exclude: /node_modules/,
+      //   use: [MiniCssExtractPlugin.loader,
+      //     'css-loader',
+      //     'postcss-loader',
+      //     'less-loader',
+      //   ]
+      // }
     ]
   },
  
-  optimization: { // 优化
-    minimize: true,
+  optimization: { // 优化项
+    // minimize: true,
+    minimizer: [
+      new UglifyJsPlugin({
+        // test: /\.less|css$/,
+        cache: true,
+        parallel: true
+      }),
+      new OptimizeCSSAssetsPlugin(),
+    ],
     // 是否压缩bundle ， producttion 默认就是为true
   },
   plugins: [
